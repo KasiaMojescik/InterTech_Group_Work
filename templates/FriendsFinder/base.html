@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load FriendsFinder_template_tags %}
+
+
+
+<html>
+	<head>
+		<style type="text/css">
+		 body {
+			color: white;
+			background-color: black;
+			background-size: 1400px 525px;
+			background-repeat: no-repeat;
+			text-align: center;
+			font-family: Open Sans
+		}
+		
+		a:link, a:visited {
+		background-color: #f44336;
+		color: white;
+		padding: 14px 25px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		border: 2px solid black;
+		-webkit-border-radius: 5px;
+		border-radius: 5px; 
+		}
+
+		input[type=submit] {
+		padding:10px 20px; 
+		background:#f44336; 
+		border:0 none;
+		color: white;
+		cursor:pointer;
+		-webkit-border-radius: 5px;
+		border-radius: 5px; 
+}
+.abcRioButton.abcRioButtonLightBlue {margin: 0 aut0;}
+}
+
+a:hover, a:active {
+    background-color: red;
+}
+		
+		</style>
+		<img src="{% static "images/sign.jpg" %}" width="1300" height="117" alt="Sign Friends Finder"/>
+		<title>
+			{% block title_block %}
+			{% endblock %}
+		</title>
+	</head>
+	<body>
+		<div>
+			{% block body_block %}
+			{% endblock %}
+		</div>
+	</body>
+</html>

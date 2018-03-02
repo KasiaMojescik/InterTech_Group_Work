@@ -1,0 +1,36 @@
+{% extends 'FriendsFinder/base.html' %}
+
+	{% load staticfiles %}
+
+
+{% block body_block %}
+
+	<div>
+	{% if user.is_authenticated %}
+		Hello {{ user.username }}! <br />
+	{% else %}
+		<br />
+		<br />
+		<strong>By filling in a personality questionnaire, you will be assigned a Friends' character. <br />
+		You will then have the opportunity to meet other people of your Friends kind by joining a forum for that specific character type.<br />
+		Let's begin!</strong>
+		<br /><br />
+	{% endif %}
+	{% if user.is_authenticated %}
+				<a href="{% url 'quiz' %}">Quiz</a>
+				<br />
+				<a href="{% url 'logout' %}">Logout</a>
+			{% else %}
+				<a href="{% url 'register' %}">Sign Up</a><a href="{% url 'login' %}">Sign In</a>
+			{% endif %}
+	
+	<br />
+	<br />
+			<img src="{% static "images/friends1.jpg" %}" width="1121" height="300" alt="Friends Image"/>
+	</div>
+
+	
+	
+	
+	
+{% endblock %}
