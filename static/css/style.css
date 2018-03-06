@@ -1,0 +1,45 @@
+body {
+	background-color: background-image: url("friends.jpg");
+}
+
+h1 {
+	color: white;
+	margin-left: 20px;
+	text-align: center;
+}
+
+body {
+	color: white;
+    background-color: black;
+    background-size: 1400px 525px;
+    background-repeat: no-repeat;
+    text-align: center;
+    font-family: Open Sans
+}
+
+a:link, a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid black;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+input[type=submit] {
+    padding:10px 20px;
+    background:#f44336;
+    border:0 none;
+    color: white;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+.abcRioButton.abcRioButtonLightBlue {margin: 0 aut0;} #TODO Dont know what this is meant to be
+
+a:hover, a:active {
+	background-color: red;
+}

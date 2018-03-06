@@ -48,10 +48,22 @@ class UserProfile(models.Model):
 class Character(models.Model):
 	#TODO User account needs to link to this
 	characterName = models.CharField(max_length=50, unique=True)
-    #TODO keep track of Characters created threads and comments
+	#TODO keep track of Characters created threads and comments, so admin would show name, thread,comments,datecreated,email
+
+    #Save overwritten so that a unique number is assigned to the end of the name so you can tel between different users
+	def save(self, *args, **kwargs):
+		existingCount = Character.objects.filter(characterName__startswith=self.characterName).count()
+		self.characterName = self.characterName + str(existingCount)
+		super(Character, self).save(*args, **kwargs)
+
+	def __str__(self):
+		return self.characterName #Hack for now, idea is query how many XXXX exist and append count+1
 
 class Question(models.Model):
 	questionContent = models.CharField(max_length=500, blank=False)
+
+	def __str__(self):
+		return self.questionContent + ":" + str(self.id)
 
 class Thread(models.Model):
 	threadCreator = models.OneToOneField(Character)
@@ -59,8 +71,14 @@ class Thread(models.Model):
 	threadCreationDate = models.DateField(auto_now_add=True)
 	threadLastModified = models.DateField(auto_now=True)
 
+	def __str__(self):
+		return self.threadTitle + ":" + str(self.id)
+
 class ThreadComment(models.Model):
 	threadCommentCreator = models.OneToOneField(Character)
 	threadCommentContent = models.CharField(max_length=500)
 	threadCommentCreationDate = models.DateField(auto_now_add=True)
 	threadCommentLastModified= models.DateField(auto_now=True)
+
+	def __str__(self):
+		return self.threadCommentCreator + ":" + str(self.id)
