@@ -41,3 +41,26 @@ class UserProfile(models.Model):
 	# Remember if you use Python 2.7.x, define __unicode__ too!
 	def __str__(self):
 		return self.user.username
+##################################################################
+##TODO link User to Character
+
+#A Character instance exists for each User after they complete the quiz
+class Character(models.Model):
+	#TODO User account needs to link to this
+	characterName = models.CharField(max_length=50, unique=True)
+    #TODO keep track of Characters created threads and comments
+
+class Question(models.Model):
+	questionContent = models.CharField(max_length=500, blank=False)
+
+class Thread(models.Model):
+	threadCreator = models.OneToOneField(Character)
+	threadTitle = models.CharField(max_length=128)
+	threadCreationDate = models.DateField(auto_now_add=True)
+	threadLastModified = models.DateField(auto_now=True)
+
+class ThreadComment(models.Model):
+	threadCommentCreator = models.OneToOneField(Character)
+	threadCommentContent = models.CharField(max_length=500)
+	threadCommentCreationDate = models.DateField(auto_now_add=True)
+	threadCommentLastModified= models.DateField(auto_now=True)
