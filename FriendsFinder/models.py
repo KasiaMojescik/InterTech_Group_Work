@@ -2,34 +2,6 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
-class Category(models.Model):
-	name = models.CharField(max_length=128, unique=True)
-	views = models.IntegerField(default=0)
-	likes = models.IntegerField(default=0)
-	slug = models.SlugField(unique=True)
-	
-	def save(self, *args, **kwargs):
-		self.slug = slugify(self.name)
-		super(Category, self).save(*args, **kwargs)
-
-	class Meta:
-		verbose_name_plural = 'categories'
-
-	def __str__(self):
-		return self.name
-
-class Page(models.Model):
-	category = models.ForeignKey(Category)
-	title = models.CharField(max_length=128)
-	url = models.URLField()
-	views = models.IntegerField(default=0)
-	likes = models.IntegerField(default=0)
-
-	class Meta:
-		verbose_name_plural = 'pages'
-	
-	def __str__(self): # For Python 2, use __unicode__ too
-		return self.title
 
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.
@@ -41,16 +13,14 @@ class UserProfile(models.Model):
 	# Remember if you use Python 2.7.x, define __unicode__ too!
 	def __str__(self):
 		return self.user.username
-##################################################################
-##TODO link User to Character
 
 #A Character instance exists for each User after they complete the quiz
 class Character(models.Model):
-	#TODO User account needs to link to this
 	characterName = models.CharField(max_length=50, unique=True)
+	linkedUser = models.ForeignKey(UserProfile, null=True)
 	#TODO keep track of Characters created threads and comments, so admin would show name, thread,comments,datecreated,email
 
-    #Save overwritten so that a unique number is assigned to the end of the name so you can tel between different users
+	#Save overwritten so that a unique number is assigned to the end of the name so you can tel between different users
 	def save(self, *args, **kwargs):
 		existingCount = Character.objects.filter(characterName__startswith=self.characterName).count()
 		self.characterName = self.characterName + str(existingCount)
