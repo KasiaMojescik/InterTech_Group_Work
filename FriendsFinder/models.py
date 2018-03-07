@@ -16,8 +16,8 @@ class UserProfile(models.Model):
 
 #A Character instance exists for each User after they complete the quiz
 class Character(models.Model):
-	characterName = models.CharField(max_length=50, unique=True)
-	linkedUser = models.ForeignKey(UserProfile, null=True)
+	characterName = models.CharField(max_length=50, unique=True, blank=False)
+	linkedUser = models.ForeignKey(User, null=True, blank=False)
 	#TODO keep track of Characters created threads and comments, so admin would show name, thread,comments,datecreated,email
 
 	#Save overwritten so that a unique number is assigned to the end of the name so you can tel between different users
@@ -36,9 +36,9 @@ class Question(models.Model):
 		return self.questionContent + ":" + str(self.id)
 
 class Thread(models.Model):
-	threadCreator = models.OneToOneField(Character)
-	threadTitle = models.CharField(max_length=128)
-	threadContent = models.CharField(max_length=500)
+	threadCreator = models.ForeignKey(Character, blank=False)
+	threadTitle = models.CharField(max_length=128, blank=False)
+	threadContent = models.CharField(max_length=500, blank=False)
 	threadCreationDate = models.DateField(auto_now_add=True)
 	threadLastModified = models.DateField(auto_now=True)
 
@@ -46,8 +46,9 @@ class Thread(models.Model):
 		return self.threadTitle + ":" + str(self.id)
 
 class ThreadComment(models.Model):
-	threadCommentCreator = models.OneToOneField(Character)
-	threadCommentContent = models.CharField(max_length=500)
+	threadCommentParent = models.ForeignKey(Thread, blank=False)
+	threadCommentCreator = models.ForeignKey(Character, blank=False)
+	threadCommentContent = models.CharField(max_length=500, blank=False)
 	threadCommentCreationDate = models.DateField(auto_now_add=True)
 	threadCommentLastModified= models.DateField(auto_now=True)
 

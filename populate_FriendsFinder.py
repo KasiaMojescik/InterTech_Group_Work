@@ -2,97 +2,67 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',
 						'group_project.settings')
 import django
+
 django.setup()
-from FriendsFinder.models import Category, Page
+
+from django.contrib.auth.models import User
+from FriendsFinder.models import Character, Thread, ThreadComment
+from random import randint
+
+#Create Users, Characters that link to users, Threads created by characters, comments created by characters
 
 def populate():
+    userLim = 10
+    threadLim = 25
+    commentLim = 100
 
+    users = create_users(limit=userLim)
+    characters = create_characters(users, limit=threadLim)
+    #threads = create_threads(characters, threadLim)
+    #create_comments(threads,characters, commentLim)
 
+#Create user accounts (required before Character creation)
+def create_users(limit=25):
+    testusers = []
 
+    for count in range(0,limit):
+        current = User.objects.create(username="testuser_" + str(count))
+        current.save()
+        testusers.append(current)
+    return testusers
 
+#Create characters and bypass quiz by randomly giving a friends character name
+def create_characters(users, limit):
+    characterNames  = ['Joey','Chandler','Ross','Rachel','Phoebe','Monica']
+    testCharacters = []
 
+    for user in users:
+        #current = Character.objects.create(characterName=characterNames[randint(0,characterNames.count())],linkedUser=user)
+        print characterNames[randint(0,characterNames.count())]
+        #current.save()
+        #testCharacters.append(current)
+    return testCharacters
 
+#Create threads by picking a user as random limit times
+def create_threads(characters, limit):
+    threads = []
 
+    for count in range(0,limit):
+        current = Thread.objects.create(threadCreator=characters[randint(0, characters.count())], threadTitle="test" + str(count), threadContent="test" + str(count))
+        current.save()
+        threads.append(current)
+    return threads
 
+#Create comments by randomly selecting a thread and character
+def create_comments(threads, characters, limit):
 
+    for count in range(0,limit):
+        currentCharacter = characters[randint(0, characters.count())]
+        currentThread = threads[randint(0,threads.count())]
 
-
-
-
-
-
-
-
-
- # First, we will create lists of dictionaries containing the pages
- # we want to add into each category.
- # Then we will create a dictionary of dictionaries for our categories.
- # This might seem a little bit confusing, but it allows us to iterate
- # through each data structure, and add the data to our models.
-
-	python_pages = [
-		{"title": "Official Python Tutorial",
-		"url":"http://docs.python.org/2/tutorial/",
-		"views": 102},
-		{"title":"How to Think like a Computer Scientist",
-		"url":"http://www.greenteapress.com/thinkpython/",
-		"views": 80},
-		{"title":"Learn Python in 10 Minutes",
-		"url":"http://www.korokithakis.net/tutorials/python/",
-		"views": 100} ]
-
-	django_pages = [
-		{"title":"Official Django Tutorial",
-		"url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/",
-		"views": 20},
-		{"title":"Django Rocks",
-		"url":"http://www.djangorocks.com/",
-		"views": 29},
-		{"title":"How to Tango with Django",
-		"url":"http://www.tangowithdjango.com/",
-		"views": 38} ]
-
-	other_pages = [
-		{"title":"Bottle",
-		"url":"http://bottlepy.org/docs/dev/",
-		"views":40},
-		{"title":"Flask",
-		"url":"http://flask.pocoo.org",
-		"views":45} ]
-
-	cats = {"Python": {"pages": python_pages, "views":128,"likes":64},
-		"Django": {"pages": django_pages, "views":64,"likes":32},
-		"Other Frameworks": {"pages": other_pages, "views":32,"likes":16} }
-
-		
-# If you want to add more catergories or pages, add them to the dictionaries above.
-# The code below goes through the cats dictionary, then adds each category,
-# and then adds all the associated pages for that category.
-# if you are using Python 2.x then use cats.iteritems() see
-# http://docs.quantifiedcode.com/python-anti-patterns/readability/
-# for more information about how to iterate over a dictionary properly.
-
-	for cat, cat_data in cats.items():
-		c = add_cat(cat)
-		for p in cat_data["pages"]:
-			add_page(c, p["title"], p["url"])
-
-# Print out the categories we have added.
-	for c in Category.objects.all():
-		for p in Page.objects.filter(category=c):
-			print("- {0} - {1}".format(str(c), str(p)))
-
-def add_page(cat, title, url, views):
-	p = Page.objects.get_or_create(category=cat, title=title)[0]
-	p.url=url
-	p.views=views
-	p.save()
-	return p
-
-def add_cat(name):
-	c = Category.objects.get_or_create(name=name)[0]
-	c.save()
-	return c
+        current = ThreadComment.objects.create(threadCommentParent = currentThread, threadCommentCreator=currentCharacter, threadCommentContent="COMMENT BY " + currentCharacter.characterName)
+        current.save()
+    return
 
 # Start execution here!
 if __name__ == '__main__':
