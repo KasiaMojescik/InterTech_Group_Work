@@ -6,6 +6,24 @@ django.setup()
 from FriendsFinder.models import Category, Page
 
 def populate():
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  # First, we will create lists of dictionaries containing the pages
  # we want to add into each category.
  # Then we will create a dictionary of dictionaries for our categories.

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from FriendsFinder.models import UserProfile
+from FriendsFinder.models import UserProfile, Thread, ThreadComment
 #
 # class CategoryForm(forms.ModelForm):
 # 	name = forms.CharField(max_length=128,
@@ -49,3 +49,13 @@ class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('website', 'picture',)
+
+class ThreadForm(forms.ModelForm):
+	class Meta:
+		model = Thread
+		fields = {'threadTitle', 'threadContent',}
+
+class ThreadCommentForm(forms.ModelForm):
+	class Meta:
+		model = ThreadComment
+		fields = {'threadCommentContent',}

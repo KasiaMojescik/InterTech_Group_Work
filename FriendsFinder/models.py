@@ -38,6 +38,7 @@ class Question(models.Model):
 class Thread(models.Model):
 	threadCreator = models.OneToOneField(Character)
 	threadTitle = models.CharField(max_length=128)
+	threadContent = models.CharField(max_length=500)
 	threadCreationDate = models.DateField(auto_now_add=True)
 	threadLastModified = models.DateField(auto_now=True)
 
